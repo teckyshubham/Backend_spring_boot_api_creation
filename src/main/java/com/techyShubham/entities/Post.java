@@ -1,6 +1,8 @@
 package com.techyShubham.entities;
 
-import java.sql.Date;
+import java.util.Date;
+
+//import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,8 +13,19 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.modelmapper.ModelMapper;
+
+import com.techyShubham.repositories.PostRepo;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
 @Table(name="posts")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Post {
 
 	@Id
