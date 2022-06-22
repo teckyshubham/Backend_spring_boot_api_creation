@@ -21,27 +21,28 @@ import springfox.documentation.spring.web.plugins.Docket;
 @Configuration
 public class SwagggerConfig {
 
-//	public static final String AUTHORIZATION_HEADER = "Authorization";
-//
-//	private ApiKey apiKeys() {
-//		return new ApiKey("JWT", AUTHORIZATION_HEADER, "header");
-//	}
-//
-//	private List<SecurityContext> securityContexts() {
-//		return Arrays.asList(SecurityContext.builder().securityReferences(sf()).build());
-//	}
-//
-//	private List<SecurityReference> sf() {
-//
-//		AuthorizationScope scope = new AuthorizationScope("global", "accessEverything");
-//
-//		return Arrays.asList(new SecurityReference("JWT", new AuthorizationScope[] { scope }));
-//	}
+	public static final String AUTHORIZATION_HEADER = "Authorization";
+
+	private ApiKey apiKeys() {
+		return new ApiKey("JWT", AUTHORIZATION_HEADER, "header");
+	}
+
+	private List<SecurityContext> securityContexts() {
+		return Arrays.asList(SecurityContext.builder().securityReferences(sf()).build());
+	}
+
+	private List<SecurityReference> sf() {
+
+		AuthorizationScope scope = new AuthorizationScope("global", "accessEverything");
+
+		return Arrays.asList(new SecurityReference("JWT", new AuthorizationScope[] { scope }));
+	}
 
 	@Bean
 	public Docket api() {
 
-		return new Docket(DocumentationType.SWAGGER_2).apiInfo(getInfo()).select().apis(RequestHandlerSelectors.any())
+		return new Docket(DocumentationType.SWAGGER_2).apiInfo(getInfo()).securityContexts(securityContexts())
+				.securitySchemes(Arrays.asList(apiKeys())).select().apis(RequestHandlerSelectors.any())
 				.paths(PathSelectors.any()).build();
 
 	}

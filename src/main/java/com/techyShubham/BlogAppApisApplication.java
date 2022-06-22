@@ -36,11 +36,11 @@ public class BlogAppApisApplication implements CommandLineRunner {
 		try {
 			Role role=new Role();
 			role.setId(AppConstants.ADMIN_USER);
-			role.setName("ADMIN_USER");
+			role.setName("ROLE_ADMIN");
 			
 			Role role1=new Role();
 			role1.setId(AppConstants.NORMAL_USER);
-			role1.setName("NORMAL_USER");
+			role1.setName("ROLE_NORMAL");
 			
 			List<Role> roles=List.of(role,role1);
 			List <Role> result=this.roleRepo.saveAll(roles);
@@ -49,6 +49,7 @@ public class BlogAppApisApplication implements CommandLineRunner {
 			});
 		}catch(Exception e){
 			e.printStackTrace();
+			
 		}
 		// TODO Auto-generated method stub
 		System.out.println(this.passwordEncoder.encode("xyz"));
