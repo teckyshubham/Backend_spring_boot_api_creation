@@ -22,19 +22,19 @@ import com.techyShubham.security.JwtAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
-//@EnableWebMvc
+@EnableWebMvc
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-//	public static final String[] PUBLIC_URLS = {
-//			"/api/v1/auth/**",
-//			"/v3/api-docs",
-//			"/v2/api-docs",
-//			"/swagger-resources/**",
-//			"/swagger-ui/**",
-//			"/webjars/**"
-//
-//	};
+	public static final String[] PUBLIC_URLS = {
+			"/api/v1/auth/**",
+			"/v3/api-docs",
+			"/v2/api-docs",
+			"/swagger-resources/**",
+			"/swagger-ui/**",
+			"/webjars/**"
+
+	};
 
 	@Autowired
 	private CustomUserDetailService customUserDetailService;
@@ -51,8 +51,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf()
 		.disable()
 		.authorizeHttpRequests()
-		.antMatchers("/api/v1/auth/**")
-				.permitAll()
+		.antMatchers(PUBLIC_URLS).permitAll()
+		.antMatchers("/api/v1/auth/**").permitAll()
+		.antMatchers("/v3/api-docs").permitAll()
+		.antMatchers("/v2/api-docs").permitAll()
+		.antMatchers("/swagger-resources/**").permitAll()
+		.antMatchers("/swagger-ui/**").permitAll()
 				.antMatchers(HttpMethod.GET)
 				.permitAll()
 				.anyRequest()
