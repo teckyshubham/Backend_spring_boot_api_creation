@@ -5,11 +5,15 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.techyShubham.config.AppConstants;
+import com.techyShubham.entities.Role;
 import com.techyShubham.entities.User;
 import com.techyShubham.exceptions.ResourceNotFoundException;
 import com.techyShubham.payloads.UserDto;
+import com.techyShubham.repositories.RoleRepo;
 import com.techyShubham.repositories.UserRepo;
 import com.techyShubham.services.UserService;
 import com.techyShubham.exceptions.*;
@@ -20,6 +24,11 @@ public class UserServiceImpl implements UserService {
 	private UserRepo userRepo;
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	@Autowired
+	private RoleRepo roleRepo;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 //	@Service
 	@Override
 	public UserDto createUser(UserDto userDto) {
@@ -94,5 +103,20 @@ public class UserServiceImpl implements UserService {
 //		userDto.setName(user.getName());
 		
 		return userDto;
+	}
+
+	@Override
+	public UserDto registerNewUser(UserDto userDto) {
+		
+		User user=this.modelMapper.map(userDto,User.class);
+		//ecoded the passwoed
+		user.setPassword(this.passwordEncoder.encode(user.getPassword()));
+		//roles
+		Role role=this.roleRepo.findById(AppConstants.NORMAL_USER).get();
+		user.getRoles().add(role);
+		User newUser=this.userRepo.save(user);
+		
+		// TODO Auto-generated method stub
+		return this.modelMapper.map(newUser, UserDto.class);
 	}
 }

@@ -44,7 +44,7 @@ public class UserController {
 		return ResponseEntity.ok(updatedUser);
 	}
 	
-	//delete'
+	//delete by admin only
 	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/{userId}")
 	public ResponseEntity<ApiResponse> deleteUser(@PathVariable("userId") Integer uid){
